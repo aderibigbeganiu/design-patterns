@@ -1,0 +1,15 @@
+{
+  "name": "design-patterns",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "repository": "https://github.com/aderibigbeganiu/design-patterns.git",
+  "author": "Aderibigbe Ganiu Adeleke <aderibigbeganiu@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "tsc && node dist/index.js"
+  },
+  "dependencies": {
+    "tsc": "^2.0.4",
+    "typescript": "^5.7.2"
+  }
+}
