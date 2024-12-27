@@ -64,10 +64,11 @@ class AbstractFactoryApplication {
 }
 
 class AbstractFactoryConfig {
-  config: { OS: "Windows" | "Mac" };
-  constructor(config: { OS: "Windows" | "Mac" }) {
+  constructor(private config: { OS: "Windows" | "Mac" }) {
     this.config = config;
+    this.main();
   }
+
   main() {
     let factory: IGUIFactory;
     if (this.config.OS === "Windows") {
@@ -77,8 +78,10 @@ class AbstractFactoryConfig {
     } else {
       throw new Error("Error! Unknown operating system");
     }
-    const app = new AbstractFactoryApplication(factory)
-    app.createUI()
-    app.paint()
+    const app = new AbstractFactoryApplication(factory);
+    app.createUI();
+    app.paint();
   }
 }
+
+new AbstractFactoryConfig({ OS: "Mac" });
