@@ -1,11 +1,22 @@
-import { Dialog, WebDialog, WindowsDialog } from "./factory/factoryMethod";
+import {
+  IGUIFactory,
+  IButton as AFIButton,
+  ICheckbox as AFICheckbox,
+  WinFactory,
+  MacFactory,
+} from "./factory/abstractFactory";
+import {
+  Dialog,
+  IButton,
+  WebDialog,
+  WindowsDialog,
+} from "./factory/factoryMethod";
 
 class FactoryMethodApplication {
-  dialog: Dialog | null;
+  dialog?: Dialog;
 
   constructor() {
-    this.dialog = null;
-    this.main()
+    this.main();
   }
 
   initializeDialog(config: { OS: "Windows" | "Web" }) {
@@ -30,4 +41,44 @@ class FactoryMethodApplication {
     dialogButton2.onClick();
   }
 }
-new FactoryMethodApplication()
+// new FactoryMethodApplication()
+
+class AbstractFactoryApplication {
+  private factory: IGUIFactory;
+  private button?: AFIButton;
+  private checkbox?: AFICheckbox;
+
+  constructor(factory: IGUIFactory) {
+    this.factory = factory;
+  }
+
+  createUI() {
+    this.button = this.factory.createButton();
+    this.checkbox = this.factory.createCheckbox();
+  }
+
+  paint() {
+    this.button!.paint();
+    this.checkbox!.paint();
+  }
+}
+
+class AbstractFactoryConfig {
+  config: { OS: "Windows" | "Mac" };
+  constructor(config: { OS: "Windows" | "Mac" }) {
+    this.config = config;
+  }
+  main() {
+    let factory: IGUIFactory;
+    if (this.config.OS === "Windows") {
+      factory = new WinFactory();
+    } else if (this.config.OS === "Mac") {
+      factory = new MacFactory();
+    } else {
+      throw new Error("Error! Unknown operating system");
+    }
+    const app = new AbstractFactoryApplication(factory)
+    app.createUI()
+    app.paint()
+  }
+}
